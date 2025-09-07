@@ -34,17 +34,13 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "multidb_project.settings")
 django.setup()
 # Now safe to import models
 
+from django.conf import settings
 from customers.models import Customer
 from orders.models import Order
 
-dbs = [
-    "default",
-    "postgres",
-    "mysql",
-]
 h_line = "-" * 50
 
-for db in dbs:  # Fetch from different DBs
+for db in settings.DATABASES.keys():  # Fetch from different DBs
     print(f"DB: {db}")
     print("Customers:", Customer.objects.using(db).all())
     print("Orders:", Order.objects.using(db).all())

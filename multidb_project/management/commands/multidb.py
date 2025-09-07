@@ -132,7 +132,6 @@ class Command(BaseCommand):
                 continue
             self.stdout.write(self.style.WARNING(f"Syncing data into {alias}..."))
 
-            # for model in apps.get_models():
             for model in model_order:
                 app_label = model._meta.app_label
                 model_name = f"{app_label}.{model.__name__}"
@@ -280,7 +279,6 @@ class Command(BaseCommand):
                         customer_objs = {c.pk: c for c in customer_model.objects.using(default_alias).all()}
 
                     for obj in objs:
-                        # data = {f.name: getattr(obj, f.name) for f in model._meta.fields if f.name != "id"}
                         data = {
                             f.name: getattr(obj, f.attname) if f.get_internal_type() == "ForeignKey" else getattr(obj, f.name)
                             for f in model._meta.fields if f.name != "id"
